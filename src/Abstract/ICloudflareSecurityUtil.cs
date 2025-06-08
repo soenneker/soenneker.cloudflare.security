@@ -77,6 +77,22 @@ public interface ICloudflareSecurityUtil
     ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateBrowserIntegrityCheck(string zoneId, bool enabled, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Enables Browser Integrity Check for a zone
+    /// </summary>
+    /// <param name="zoneId">The zone identifier</param>
+    /// <param name="cancellationToken">Optional cancellation token</param>
+    /// <returns>The updated Browser Integrity Check settings</returns>
+    ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableBrowserIntegrityCheck(string zoneId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Disables Browser Integrity Check for a zone
+    /// </summary>
+    /// <param name="zoneId">The zone identifier</param>
+    /// <param name="cancellationToken">Optional cancellation token</param>
+    /// <returns>The updated Browser Integrity Check settings</returns>
+    ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableBrowserIntegrityCheck(string zoneId, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Gets the JavaScript Detection settings for a zone
     /// </summary>
     /// <param name="zoneId">The zone identifier</param>
@@ -92,6 +108,22 @@ public interface ICloudflareSecurityUtil
     /// <param name="cancellationToken">Optional cancellation token</param>
     /// <returns>The updated JavaScript Detection settings</returns>
     ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateJavaScriptDetection(string zoneId, bool enabled, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Enables JavaScript Detection for a zone
+    /// </summary>
+    /// <param name="zoneId">The zone identifier</param>
+    /// <param name="cancellationToken">Optional cancellation token</param>
+    /// <returns>The updated JavaScript Detection settings</returns>
+    ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Disables JavaScript Detection for a zone
+    /// </summary>
+    /// <param name="zoneId">The zone identifier</param>
+    /// <param name="cancellationToken">Optional cancellation token</param>
+    /// <returns>The updated JavaScript Detection settings</returns>
+    ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the AI Labyrinth settings for a zone
@@ -111,6 +143,22 @@ public interface ICloudflareSecurityUtil
     ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateAiLabyrinth(string zoneId, bool enabled, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Enables AI Labyrinth for a zone
+    /// </summary>
+    /// <param name="zoneId">The zone identifier</param>
+    /// <param name="cancellationToken">Optional cancellation token</param>
+    /// <returns>The updated AI Labyrinth settings</returns>
+    ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableAiLabyrinth(string zoneId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Disables AI Labyrinth for a zone
+    /// </summary>
+    /// <param name="zoneId">The zone identifier</param>
+    /// <param name="cancellationToken">Optional cancellation token</param>
+    /// <returns>The updated AI Labyrinth settings</returns>
+    ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableAiLabyrinth(string zoneId, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Gets the Bot Fight Mode settings for a zone
     /// </summary>
     /// <param name="zoneId">The zone identifier</param>
@@ -128,6 +176,22 @@ public interface ICloudflareSecurityUtil
     ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateBotFightMode(string zoneId, bool enabled, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Enables Bot Fight Mode for a zone
+    /// </summary>
+    /// <param name="zoneId">The zone identifier</param>
+    /// <param name="cancellationToken">Optional cancellation token</param>
+    /// <returns>The updated Bot Fight Mode settings</returns>
+    ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableBotFightMode(string zoneId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Disables Bot Fight Mode for a zone
+    /// </summary>
+    /// <param name="zoneId">The zone identifier</param>
+    /// <param name="cancellationToken">Optional cancellation token</param>
+    /// <returns>The updated Bot Fight Mode settings</returns>
+    ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableBotFightMode(string zoneId, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Gets the Super Bot Fight Mode settings for a zone
     /// </summary>
     /// <param name="zoneId">The zone identifier</param>
@@ -143,4 +207,20 @@ public interface ICloudflareSecurityUtil
     /// <param name="cancellationToken">Optional cancellation token</param>
     /// <returns>The updated Super Bot Fight Mode settings</returns>
     ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateSuperBotFightMode(string zoneId, bool enabled, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Enables Super Bot Fight Mode for a zone
+    /// </summary>
+    /// <param name="zoneId">The zone identifier</param>
+    /// <param name="cancellationToken">Optional cancellation token</param>
+    /// <returns>The updated Super Bot Fight Mode settings</returns>
+    ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableSuperBotFightMode(string zoneId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Disables Super Bot Fight Mode for a zone
+    /// </summary>
+    /// <param name="zoneId">The zone identifier</param>
+    /// <param name="cancellationToken">Optional cancellation token</param>
+    /// <returns>The updated Super Bot Fight Mode settings</returns>
+    ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableSuperBotFightMode(string zoneId, CancellationToken cancellationToken = default);
 }

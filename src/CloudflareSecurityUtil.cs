@@ -325,4 +325,224 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
             throw;
         }
     }
+
+    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableBrowserIntegrityCheck(string zoneId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Enabling Browser Integrity Check for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            var requestBody = new Zones_zone_settings_single_request
+            {
+                AdditionalData =
+                {
+                    ["value"] = "on"
+                }
+            };
+            return await client.Zones[zoneId].Settings["browser_check"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error enabling Browser Integrity Check for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
+
+    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableBrowserIntegrityCheck(string zoneId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Disabling Browser Integrity Check for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            var requestBody = new Zones_zone_settings_single_request
+            {
+                AdditionalData =
+                {
+                    ["value"] = "off"
+                }
+            };
+            return await client.Zones[zoneId].Settings["browser_check"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error disabling Browser Integrity Check for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
+
+    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Enabling JavaScript Detection for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            var requestBody = new Zones_zone_settings_single_request
+            {
+                AdditionalData =
+                {
+                    ["value"] = "on"
+                }
+            };
+            return await client.Zones[zoneId].Settings["js_challenge"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error enabling JavaScript Detection for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
+
+    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Disabling JavaScript Detection for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            var requestBody = new Zones_zone_settings_single_request
+            {
+                AdditionalData =
+                {
+                    ["value"] = "off"
+                }
+            };
+            return await client.Zones[zoneId].Settings["js_challenge"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error disabling JavaScript Detection for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
+
+    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableAiLabyrinth(string zoneId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Enabling AI Labyrinth for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            var requestBody = new Zones_zone_settings_single_request
+            {
+                AdditionalData =
+                {
+                    ["value"] = "on"
+                }
+            };
+            return await client.Zones[zoneId].Settings["ai_labyrinth"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error enabling AI Labyrinth for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
+
+    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableAiLabyrinth(string zoneId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Disabling AI Labyrinth for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            var requestBody = new Zones_zone_settings_single_request
+            {
+                AdditionalData =
+                {
+                    ["value"] = "off"
+                }
+            };
+            return await client.Zones[zoneId].Settings["ai_labyrinth"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error disabling AI Labyrinth for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
+
+    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableBotFightMode(string zoneId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Enabling Bot Fight Mode for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            var requestBody = new Zones_zone_settings_single_request
+            {
+                AdditionalData =
+                {
+                    ["value"] = "on"
+                }
+            };
+            return await client.Zones[zoneId].Settings["bot_fight_mode"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error enabling Bot Fight Mode for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
+
+    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableBotFightMode(string zoneId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Disabling Bot Fight Mode for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            var requestBody = new Zones_zone_settings_single_request
+            {
+                AdditionalData =
+                {
+                    ["value"] = "off"
+                }
+            };
+            return await client.Zones[zoneId].Settings["bot_fight_mode"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error disabling Bot Fight Mode for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
+
+    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableSuperBotFightMode(string zoneId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Enabling Super Bot Fight Mode for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            var requestBody = new Zones_zone_settings_single_request
+            {
+                AdditionalData =
+                {
+                    ["value"] = "on"
+                }
+            };
+            return await client.Zones[zoneId].Settings["super_bot_fight_mode"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error enabling Super Bot Fight Mode for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
+
+    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableSuperBotFightMode(string zoneId, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Disabling Super Bot Fight Mode for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            var requestBody = new Zones_zone_settings_single_request
+            {
+                AdditionalData =
+                {
+                    ["value"] = "off"
+                }
+            };
+            return await client.Zones[zoneId].Settings["super_bot_fight_mode"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error disabling Super Bot Fight Mode for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
 }
