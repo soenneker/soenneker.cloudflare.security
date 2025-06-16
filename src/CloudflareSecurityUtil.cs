@@ -23,7 +23,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         _logger = logger;
     }
 
-    public async ValueTask<Zone_settings_get_single_setting_Response_200_application_json> GetSecurityLevel(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_get_single_setting_200> GetSecurityLevel(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting security level settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -38,7 +38,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateSecurityLevel(string zoneId, string level, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_edit_single_setting_200> UpdateSecurityLevel(string zoneId, string level, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Updating security level settings for zone {ZoneId} to {Level}", zoneId, level);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -46,9 +46,12 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = level
+                    Value = new Zones_setting_value
+                    {
+                        ZonesSecurityLevelValue = Enum.Parse<Zones_security_level_value>(level)
+                    }
                 }
             };
             return await client.Zones[zoneId].Settings["security_level"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
@@ -60,7 +63,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<Zone_settings_get_single_setting_Response_200_application_json> GetWaf(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_get_single_setting_200> GetWaf(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting WAF settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -75,7 +78,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateWaf(string zoneId, bool enabled, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_edit_single_setting_200> UpdateWaf(string zoneId, bool enabled, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Updating WAF settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -83,9 +86,12 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = enabled ? "on" : "off"
+                    Value = new Zones_setting_value
+                    {
+                        ZonesWafValue = enabled ? Zones_waf_value.On : Zones_waf_value.Off
+                    }
                 }
             };
             return await client.Zones[zoneId].Settings["waf"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
@@ -97,7 +103,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableWaf(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_edit_single_setting_200> EnableWaf(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Enabling WAF for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -105,9 +111,12 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = "on"
+                    Value = new Zones_setting_value
+                    {
+                        ZonesWafValue = Zones_waf_value.On
+                    }
                 }
             };
             return await client.Zones[zoneId].Settings["waf"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
@@ -119,7 +128,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableWaf(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_edit_single_setting_200> DisableWaf(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Disabling WAF for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -127,9 +136,12 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = "off"
+                    Value = new Zones_setting_value
+                    {
+                        ZonesWafValue = Zones_waf_value.Off
+                    }
                 }
             };
             return await client.Zones[zoneId].Settings["waf"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
@@ -141,7 +153,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<Zone_settings_get_single_setting_Response_200_application_json> GetBrowserIntegrityCheck(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_get_single_setting_200> GetBrowserIntegrityCheck(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting Browser Integrity Check settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -156,7 +168,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateBrowserIntegrityCheck(string zoneId, bool enabled, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_edit_single_setting_200> UpdateBrowserIntegrityCheck(string zoneId, bool enabled, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Updating Browser Integrity Check settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -164,9 +176,12 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = enabled ? "on" : "off"
+                    Value = new Zones_setting_value
+                    {
+                        ZonesBrowserCheckValue = enabled ? Zones_browser_check_value.On : Zones_browser_check_value.Off
+                    }
                 }
             };
             return await client.Zones[zoneId].Settings["browser_check"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
@@ -178,7 +193,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<Zone_settings_get_single_setting_Response_200_application_json> GetJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_get_single_setting_200> GetJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting JavaScript Detection settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -193,355 +208,189 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateJavaScriptDetection(string zoneId, bool enabled, CancellationToken cancellationToken = default)
+
+    public async ValueTask<Zone_settings_get_single_setting_200> GetAlwaysUseHttps(string zoneId, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Updating JavaScript Detection settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
+        _logger.LogInformation("Getting Always Use HTTPS settings for zone {ZoneId}", zoneId);
+        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
+        try
+        {
+            return await client.Zones[zoneId].Settings["always_use_https"].GetAsync(cancellationToken: cancellationToken).NoSync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting Always Use HTTPS settings for zone {ZoneId}", zoneId);
+            throw;
+        }
+    }
+
+    public async ValueTask<Zone_settings_edit_single_setting_200> UpdateAlwaysUseHttps(string zoneId, bool enabled, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Updating Always Use HTTPS settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
         try
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = enabled ? "on" : "off"
+                    Value = new Zones_setting_value
+                    {
+                        ZonesAlwaysUseHttpsValue = enabled ? Zones_always_use_https_value.On : Zones_always_use_https_value.Off
+                    }
                 }
             };
-            return await client.Zones[zoneId].Settings["js_challenge"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+
+            return await client.Zones[zoneId].Settings["always_use_https"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating JavaScript Detection settings for zone {ZoneId}", zoneId);
+            _logger.LogError(ex, "Error updating Always Use HTTPS settings for zone {ZoneId}", zoneId);
             throw;
         }
     }
 
-    public async ValueTask<Zone_settings_get_single_setting_Response_200_application_json> GetAiLabyrinth(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_edit_single_setting_200> EnableAlwaysUseHttps(string zoneId, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Getting AI Labyrinth settings for zone {ZoneId}", zoneId);
-        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
-        try
-        {
-            return await client.Zones[zoneId].Settings["ai_labyrinth"].GetAsync(cancellationToken: cancellationToken).NoSync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting AI Labyrinth settings for zone {ZoneId}", zoneId);
-            throw;
-        }
-    }
-
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateAiLabyrinth(string zoneId, bool enabled, CancellationToken cancellationToken = default)
-    {
-        _logger.LogInformation("Updating AI Labyrinth settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
+        _logger.LogInformation("Enabling Always Use HTTPS for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
         try
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = enabled ? "on" : "off"
+                    Value = new Zones_setting_value
+                    {
+                        ZonesAlwaysUseHttpsValue = Zones_always_use_https_value.On
+                    }
                 }
             };
-            return await client.Zones[zoneId].Settings["ai_labyrinth"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+
+            return await client.Zones[zoneId].Settings["always_use_https"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating AI Labyrinth settings for zone {ZoneId}", zoneId);
+            _logger.LogError(ex, "Error enabling Always Use HTTPS for zone {ZoneId}", zoneId);
             throw;
         }
     }
 
-    public async ValueTask<Zone_settings_get_single_setting_Response_200_application_json> GetBotFightMode(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_edit_single_setting_200> DisableAlwaysUseHttps(string zoneId, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Getting Bot Fight Mode settings for zone {ZoneId}", zoneId);
-        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
-        try
-        {
-            return await client.Zones[zoneId].Settings["bot_fight_mode"].GetAsync(cancellationToken: cancellationToken).NoSync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting Bot Fight Mode settings for zone {ZoneId}", zoneId);
-            throw;
-        }
-    }
-
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateBotFightMode(string zoneId, bool enabled, CancellationToken cancellationToken = default)
-    {
-        _logger.LogInformation("Updating Bot Fight Mode settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
+        _logger.LogInformation("Disabling Always Use HTTPS for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
         try
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = enabled ? "on" : "off"
+                    Value = new Zones_setting_value
+                    {
+                        ZonesAlwaysUseHttpsValue = Zones_always_use_https_value.Off
+                    }
                 }
             };
-            return await client.Zones[zoneId].Settings["bot_fight_mode"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+
+            return await client.Zones[zoneId].Settings["always_use_https"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating Bot Fight Mode settings for zone {ZoneId}", zoneId);
+            _logger.LogError(ex, "Error disabling Always Use HTTPS for zone {ZoneId}", zoneId);
             throw;
         }
     }
 
-    public async ValueTask<Zone_settings_get_single_setting_Response_200_application_json> GetSuperBotFightMode(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_get_single_setting_200> GetAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Getting Super Bot Fight Mode settings for zone {ZoneId}", zoneId);
+        _logger.LogInformation("Getting Automatic HTTPS Rewrites settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
         try
         {
-            return await client.Zones[zoneId].Settings["super_bot_fight_mode"].GetAsync(cancellationToken: cancellationToken).NoSync();
+            return await client.Zones[zoneId].Settings["automatic_https_rewrites"].GetAsync(cancellationToken: cancellationToken).NoSync();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting Super Bot Fight Mode settings for zone {ZoneId}", zoneId);
+            _logger.LogError(ex, "Error getting Automatic HTTPS Rewrites settings for zone {ZoneId}", zoneId);
             throw;
         }
     }
 
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> UpdateSuperBotFightMode(string zoneId, bool enabled, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_edit_single_setting_200> UpdateAutomaticHttpsRewrites(string zoneId, bool enabled, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Updating Super Bot Fight Mode settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
-        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
-        try
-        {
-            var requestBody = new Zones_zone_settings_single_request
-            {
-                AdditionalData =
-                {
-                    ["value"] = enabled ? "on" : "off"
-                }
-            };
-            return await client.Zones[zoneId].Settings["super_bot_fight_mode"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error updating Super Bot Fight Mode settings for zone {ZoneId}", zoneId);
-            throw;
-        }
-    }
-
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableBrowserIntegrityCheck(string zoneId, CancellationToken cancellationToken = default)
-    {
-        _logger.LogInformation("Enabling Browser Integrity Check for zone {ZoneId}", zoneId);
+        _logger.LogInformation("Updating Automatic HTTPS Rewrites settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
         try
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = "on"
+                    Value = new Zones_setting_value
+                    {
+                        ZonesAutomaticHttpsRewritesValue = enabled ? Zones_automatic_https_rewrites_value.On : Zones_automatic_https_rewrites_value.Off
+                    }
                 }
             };
-            return await client.Zones[zoneId].Settings["browser_check"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+
+            return await client.Zones[zoneId].Settings["automatic_https_rewrites"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error enabling Browser Integrity Check for zone {ZoneId}", zoneId);
+            _logger.LogError(ex, "Error updating Automatic HTTPS Rewrites settings for zone {ZoneId}", zoneId);
             throw;
         }
     }
 
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableBrowserIntegrityCheck(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_edit_single_setting_200> EnableAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Disabling Browser Integrity Check for zone {ZoneId}", zoneId);
+        _logger.LogInformation("Enabling Automatic HTTPS Rewrites for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
         try
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = "off"
+                    Value = new Zones_setting_value
+                    {
+                        ZonesAutomaticHttpsRewritesValue = Zones_automatic_https_rewrites_value.On
+                    }
                 }
             };
-            return await client.Zones[zoneId].Settings["browser_check"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+
+            return await client.Zones[zoneId].Settings["automatic_https_rewrites"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error disabling Browser Integrity Check for zone {ZoneId}", zoneId);
+            _logger.LogError(ex, "Error enabling Automatic HTTPS Rewrites for zone {ZoneId}", zoneId);
             throw;
         }
     }
 
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<Zone_settings_edit_single_setting_200> DisableAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Enabling JavaScript Detection for zone {ZoneId}", zoneId);
+        _logger.LogInformation("Disabling Automatic HTTPS Rewrites for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
         try
         {
             var requestBody = new Zones_zone_settings_single_request
             {
-                AdditionalData =
+                ZonesZoneSettingsSingleRequestMember2 = new Zones_zone_settings_single_requestMember2
                 {
-                    ["value"] = "on"
+                    Value = new Zones_setting_value
+                    {
+                        ZonesAutomaticHttpsRewritesValue = Zones_automatic_https_rewrites_value.Off
+                    }
                 }
             };
-            return await client.Zones[zoneId].Settings["js_challenge"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error enabling JavaScript Detection for zone {ZoneId}", zoneId);
-            throw;
-        }
-    }
 
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default)
-    {
-        _logger.LogInformation("Disabling JavaScript Detection for zone {ZoneId}", zoneId);
-        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
-        try
-        {
-            var requestBody = new Zones_zone_settings_single_request
-            {
-                AdditionalData =
-                {
-                    ["value"] = "off"
-                }
-            };
-            return await client.Zones[zoneId].Settings["js_challenge"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
+            return await client.Zones[zoneId].Settings["automatic_https_rewrites"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error disabling JavaScript Detection for zone {ZoneId}", zoneId);
-            throw;
-        }
-    }
-
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableAiLabyrinth(string zoneId, CancellationToken cancellationToken = default)
-    {
-        _logger.LogInformation("Enabling AI Labyrinth for zone {ZoneId}", zoneId);
-        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
-        try
-        {
-            var requestBody = new Zones_zone_settings_single_request
-            {
-                AdditionalData =
-                {
-                    ["value"] = "on"
-                }
-            };
-            return await client.Zones[zoneId].Settings["ai_labyrinth"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error enabling AI Labyrinth for zone {ZoneId}", zoneId);
-            throw;
-        }
-    }
-
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableAiLabyrinth(string zoneId, CancellationToken cancellationToken = default)
-    {
-        _logger.LogInformation("Disabling AI Labyrinth for zone {ZoneId}", zoneId);
-        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
-        try
-        {
-            var requestBody = new Zones_zone_settings_single_request
-            {
-                AdditionalData =
-                {
-                    ["value"] = "off"
-                }
-            };
-            return await client.Zones[zoneId].Settings["ai_labyrinth"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error disabling AI Labyrinth for zone {ZoneId}", zoneId);
-            throw;
-        }
-    }
-
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableBotFightMode(string zoneId, CancellationToken cancellationToken = default)
-    {
-        _logger.LogInformation("Enabling Bot Fight Mode for zone {ZoneId}", zoneId);
-        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
-        try
-        {
-            var requestBody = new Zones_zone_settings_single_request
-            {
-                AdditionalData =
-                {
-                    ["value"] = "on"
-                }
-            };
-            return await client.Zones[zoneId].Settings["bot_fight_mode"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error enabling Bot Fight Mode for zone {ZoneId}", zoneId);
-            throw;
-        }
-    }
-
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableBotFightMode(string zoneId, CancellationToken cancellationToken = default)
-    {
-        _logger.LogInformation("Disabling Bot Fight Mode for zone {ZoneId}", zoneId);
-        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
-        try
-        {
-            var requestBody = new Zones_zone_settings_single_request
-            {
-                AdditionalData =
-                {
-                    ["value"] = "off"
-                }
-            };
-            return await client.Zones[zoneId].Settings["bot_fight_mode"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error disabling Bot Fight Mode for zone {ZoneId}", zoneId);
-            throw;
-        }
-    }
-
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> EnableSuperBotFightMode(string zoneId, CancellationToken cancellationToken = default)
-    {
-        _logger.LogInformation("Enabling Super Bot Fight Mode for zone {ZoneId}", zoneId);
-        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
-        try
-        {
-            var requestBody = new Zones_zone_settings_single_request
-            {
-                AdditionalData =
-                {
-                    ["value"] = "on"
-                }
-            };
-            return await client.Zones[zoneId].Settings["super_bot_fight_mode"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error enabling Super Bot Fight Mode for zone {ZoneId}", zoneId);
-            throw;
-        }
-    }
-
-    public async ValueTask<Zone_settings_edit_single_setting_Response_200_application_json> DisableSuperBotFightMode(string zoneId, CancellationToken cancellationToken = default)
-    {
-        _logger.LogInformation("Disabling Super Bot Fight Mode for zone {ZoneId}", zoneId);
-        CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
-        try
-        {
-            var requestBody = new Zones_zone_settings_single_request
-            {
-                AdditionalData =
-                {
-                    ["value"] = "off"
-                }
-            };
-            return await client.Zones[zoneId].Settings["super_bot_fight_mode"].PatchAsync(requestBody, cancellationToken: cancellationToken).NoSync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error disabling Super Bot Fight Mode for zone {ZoneId}", zoneId);
+            _logger.LogError(ex, "Error disabling Automatic HTTPS Rewrites for zone {ZoneId}", zoneId);
             throw;
         }
     }
