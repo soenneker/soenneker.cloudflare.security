@@ -123,6 +123,12 @@ public interface ICloudflareSecurityUtil
     /// <returns>The JavaScript Detection settings</returns>
     ValueTask<ZoneSettingsGetSingleSetting200?> GetJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Gets automatic https rewrites.
+    /// </summary>
+    /// <param name="zoneId">The zone id.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task containing the result of the operation.</returns>
     ValueTask<ZoneSettingsGetSingleSetting200?> GetAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default);
 
 }
