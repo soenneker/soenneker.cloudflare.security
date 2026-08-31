@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Soenneker.Cloudflare.Security;
 
-/// <inheritdoc cref="ICloudflareSecurityUtil"/>
 public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
 {
     private readonly ICloudflareClientUtil _client;
@@ -341,13 +340,6 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    /// <summary>
-    /// Updates automatic https rewrites.
-    /// </summary>
-    /// <param name="zoneId">The zone id.</param>
-    /// <param name="enabled">The enabled.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task containing the result of the operation.</returns>
     public async ValueTask<ZoneSettingsEditSingleSetting200?> UpdateAutomaticHttpsRewrites(string zoneId, bool enabled, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Updating Automatic HTTPS Rewrites settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
@@ -377,12 +369,6 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    /// <summary>
-    /// Executes the enable automatic https rewrites operation.
-    /// </summary>
-    /// <param name="zoneId">The zone id.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task containing the result of the operation.</returns>
     public async ValueTask<ZoneSettingsEditSingleSetting200?> EnableAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Enabling Automatic HTTPS Rewrites for zone {ZoneId}", zoneId);
@@ -412,12 +398,6 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    /// <summary>
-    /// Executes the disable automatic https rewrites operation.
-    /// </summary>
-    /// <param name="zoneId">The zone id.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task containing the result of the operation.</returns>
     public async ValueTask<ZoneSettingsEditSingleSetting200?> DisableAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Disabling Automatic HTTPS Rewrites for zone {ZoneId}", zoneId);

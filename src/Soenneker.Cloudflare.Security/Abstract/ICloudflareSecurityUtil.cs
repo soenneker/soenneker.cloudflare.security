@@ -131,4 +131,21 @@ public interface ICloudflareSecurityUtil
     /// <returns>A task containing the result of the operation.</returns>
     ValueTask<ZoneSettingsGetSingleSetting200?> GetAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// Enables or disables Automatic HTTPS Rewrites for a zone.
+    /// </summary>
+    ValueTask<ZoneSettingsEditSingleSetting200?> UpdateAutomaticHttpsRewrites(string zoneId, bool enabled,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Enables Automatic HTTPS Rewrites for a zone.
+    /// </summary>
+    ValueTask<ZoneSettingsEditSingleSetting200?> EnableAutomaticHttpsRewrites(string zoneId,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Disables Automatic HTTPS Rewrites for a zone.
+    /// </summary>
+    ValueTask<ZoneSettingsEditSingleSetting200?> DisableAutomaticHttpsRewrites(string zoneId,
+        CancellationToken cancellationToken = default);
 }
