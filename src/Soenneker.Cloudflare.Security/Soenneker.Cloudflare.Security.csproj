@@ -45,5 +45,8 @@
 
     <ItemGroup>
         <PackageReference Include="Soenneker.Cloudflare.Utils.Client" Version="4.0.1002" />
+        <PackageReference Include="Soenneker.Extensions.String" Version="4.0.736" />
+        <PackageReference Include="Soenneker.Extensions.Task" Version="4.0.128" />
+        <PackageReference Include="Soenneker.Extensions.ValueTask" Version="4.0.120" />
     </ItemGroup>
 </Project>

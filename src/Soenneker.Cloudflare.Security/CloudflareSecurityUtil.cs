@@ -3,6 +3,7 @@ using Soenneker.Cloudflare.OpenApiClient;
 using Soenneker.Cloudflare.OpenApiClient.Models;
 using Soenneker.Cloudflare.Security.Abstract;
 using Soenneker.Cloudflare.Utils.Client.Abstract;
+using Soenneker.Extensions.String;
 using Soenneker.Extensions.Task;
 using Soenneker.Extensions.ValueTask;
 using System;
@@ -51,7 +52,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
                     {
                         ZonesSecurityLevelValueWrapper = new ZonesSecurityLevelValue_Wrapper
                         {
-                            Value = Enum.Parse<ZonesSecurityLevelValue>(level)
+                            Value = level.ToEnum<ZonesSecurityLevelValue>()
                         }
                     }
                 }
