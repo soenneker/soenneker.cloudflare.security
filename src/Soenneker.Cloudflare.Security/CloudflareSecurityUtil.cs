@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Soenneker.Cloudflare.Security;
 
+/// <inheritdoc cref="ICloudflareSecurityUtil" />
 public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
 {
     private readonly ICloudflareClientUtil _client;
