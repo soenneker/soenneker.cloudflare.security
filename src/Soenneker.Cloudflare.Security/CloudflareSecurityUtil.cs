@@ -24,7 +24,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         _logger = logger;
     }
 
-    public async ValueTask<ZoneSettingsGetSingleSetting200?> GetSecurityLevel(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsGetSingleSetting200Response?> GetSecurityLevel(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting security level settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -39,7 +39,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> UpdateSecurityLevel(string zoneId, string level, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> UpdateSecurityLevel(string zoneId, string level, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Updating security level settings for zone {ZoneId} to {Level}", zoneId, level);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -47,14 +47,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesSecurityLevelValueWrapper = new ZonesSecurityLevelValue_Wrapper
-                        {
-                            Value = level.ToEnum<ZonesSecurityLevelValue>()
-                        }
+                        ZonesSecurityLevelValue = level.ToEnum<ZonesSecurityLevelValue>()
                     }
                 }
             };
@@ -67,7 +64,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsGetSingleSetting200?> GetWaf(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsGetSingleSetting200Response?> GetWaf(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting WAF settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -82,7 +79,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> UpdateWaf(string zoneId, bool enabled, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> UpdateWaf(string zoneId, bool enabled, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Updating WAF settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -90,14 +87,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesWafValueWrapper = new ZonesWafValue_Wrapper
-                        {
-                            Value = enabled ? ZonesWafValue.On : ZonesWafValue.Off
-                        }
+                        ZonesWafValue = enabled ? ZonesWafValue.On : ZonesWafValue.Off
                     }
                 }
             };
@@ -110,7 +104,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> EnableWaf(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> EnableWaf(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Enabling WAF for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -118,14 +112,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesWafValueWrapper = new ZonesWafValue_Wrapper
-                        {
-                            Value = ZonesWafValue.On
-                        }
+                        ZonesWafValue = ZonesWafValue.On
                     }
                 }
             };
@@ -138,7 +129,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> DisableWaf(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> DisableWaf(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Disabling WAF for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -146,14 +137,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesWafValueWrapper = new ZonesWafValue_Wrapper
-                        {
-                            Value = ZonesWafValue.Off
-                        }
+                        ZonesWafValue = ZonesWafValue.Off
                     }
                 }
             };
@@ -166,7 +154,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsGetSingleSetting200?> GetBrowserIntegrityCheck(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsGetSingleSetting200Response?> GetBrowserIntegrityCheck(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting Browser Integrity Check settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -181,7 +169,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> UpdateBrowserIntegrityCheck(string zoneId, bool enabled, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> UpdateBrowserIntegrityCheck(string zoneId, bool enabled, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Updating Browser Integrity Check settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -189,14 +177,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesBrowserCheckValueWrapper = new ZonesBrowserCheckValue_Wrapper
-                        {
-                            Value = enabled ? ZonesBrowserCheckValue.On : ZonesBrowserCheckValue.Off
-                        }
+                        ZonesBrowserCheckValue = enabled ? ZonesBrowserCheckValue.On : ZonesBrowserCheckValue.Off
                     }
                 }
             };
@@ -209,7 +194,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsGetSingleSetting200?> GetJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsGetSingleSetting200Response?> GetJavaScriptDetection(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting JavaScript Detection settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -225,7 +210,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
     }
 
 
-    public async ValueTask<ZoneSettingsGetSingleSetting200?> GetAlwaysUseHttps(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsGetSingleSetting200Response?> GetAlwaysUseHttps(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting Always Use HTTPS settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -240,7 +225,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> UpdateAlwaysUseHttps(string zoneId, bool enabled, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> UpdateAlwaysUseHttps(string zoneId, bool enabled, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Updating Always Use HTTPS settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -248,14 +233,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesAlwaysUseHttpsValueWrapper = new ZonesAlwaysUseHttpsValue_Wrapper
-                        {
-                            Value = enabled ? ZonesAlwaysUseHttpsValue.On : ZonesAlwaysUseHttpsValue.Off
-                        }
+                        ZonesAlwaysUseHttpsValue = enabled ? ZonesAlwaysUseHttpsValue.On : ZonesAlwaysUseHttpsValue.Off
                     }
                 }
             };
@@ -269,7 +251,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> EnableAlwaysUseHttps(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> EnableAlwaysUseHttps(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Enabling Always Use HTTPS for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -277,14 +259,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesAlwaysUseHttpsValueWrapper = new ZonesAlwaysUseHttpsValue_Wrapper
-                        {
-                            Value = ZonesAlwaysUseHttpsValue.On
-                        }
+                        ZonesAlwaysUseHttpsValue = ZonesAlwaysUseHttpsValue.On
                     }
                 }
             };
@@ -298,7 +277,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> DisableAlwaysUseHttps(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> DisableAlwaysUseHttps(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Disabling Always Use HTTPS for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -306,14 +285,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesAlwaysUseHttpsValueWrapper = new ZonesAlwaysUseHttpsValue_Wrapper
-                        {
-                            Value = ZonesAlwaysUseHttpsValue.Off
-                        }
+                        ZonesAlwaysUseHttpsValue = ZonesAlwaysUseHttpsValue.Off
                     }
                 }
             };
@@ -327,7 +303,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsGetSingleSetting200?> GetAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsGetSingleSetting200Response?> GetAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting Automatic HTTPS Rewrites settings for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -342,7 +318,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> UpdateAutomaticHttpsRewrites(string zoneId, bool enabled, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> UpdateAutomaticHttpsRewrites(string zoneId, bool enabled, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Updating Automatic HTTPS Rewrites settings for zone {ZoneId} to {Enabled}", zoneId, enabled);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -350,14 +326,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesAutomaticHttpsRewritesValueWrapper = new ZonesAutomaticHttpsRewritesValue_Wrapper
-                        {
-                            Value = enabled ? ZonesAutomaticHttpsRewritesValue.On : ZonesAutomaticHttpsRewritesValue.Off
-                        }
+                        ZonesAutomaticHttpsRewritesValue = enabled ? ZonesAutomaticHttpsRewritesValue.On : ZonesAutomaticHttpsRewritesValue.Off
                     }
                 }
             };
@@ -371,7 +344,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> EnableAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> EnableAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Enabling Automatic HTTPS Rewrites for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -379,14 +352,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesAutomaticHttpsRewritesValueWrapper = new ZonesAutomaticHttpsRewritesValue_Wrapper
-                        {
-                            Value = ZonesAutomaticHttpsRewritesValue.On
-                        }
+                        ZonesAutomaticHttpsRewritesValue = ZonesAutomaticHttpsRewritesValue.On
                     }
                 }
             };
@@ -400,7 +370,7 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         }
     }
 
-    public async ValueTask<ZoneSettingsEditSingleSetting200?> DisableAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
+    public async ValueTask<ZoneSettingsEditSingleSetting200Response?> DisableAutomaticHttpsRewrites(string zoneId, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Disabling Automatic HTTPS Rewrites for zone {ZoneId}", zoneId);
         CloudflareOpenApiClient client = await _client.Get(cancellationToken).NoSync();
@@ -408,14 +378,11 @@ public sealed class CloudflareSecurityUtil : ICloudflareSecurityUtil
         {
             var requestBody = new ZonesZoneSettingsSingleRequest
             {
-                ZonesZoneSettingsSingleRequestMember2 = new ZonesZoneSettingsSingleRequestMember2
+                ZonesZoneSettingsSingleRequestOneOf2 = new ZonesZoneSettingsSingleRequestOneOf2
                 {
                     Value = new ZonesSettingValue
                     {
-                        ZonesAutomaticHttpsRewritesValueWrapper = new ZonesAutomaticHttpsRewritesValue_Wrapper
-                        {
-                            Value = ZonesAutomaticHttpsRewritesValue.Off
-                        }
+                        ZonesAutomaticHttpsRewritesValue = ZonesAutomaticHttpsRewritesValue.Off
                     }
                 }
             };
